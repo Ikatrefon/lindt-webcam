@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Lindt – LiveCam</title>
+  <link href="https://fonts.googleapis.com/css2?family=Marcellus&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { background: #d4b896; }
+
+    body {
+      width: 1440px;
+      margin: 0 auto;
+      min-height: 5818px;
+      background: url('tlo_strony.png') no-repeat top left;
+      background-size: 1440px auto;
+      position: relative;
+    }
+
+    #zone {
+      position: absolute;
+      top: 237px; left: 0;
+      width: 1440px; height: 400px;
+      overflow: hidden;
+      background-color: #fff;
+      background-image: url('Live_cam_tlo.svg');
+      background-repeat: no-repeat;
+      background-position: 160px 25px;
+      background-size: 1152px 320px;
+    }
+
+    #widget {
+      position: absolute;
+      left: 34px; top: 34px;
+      width: 1367px; height: 340px;
+      display: flex;
+      gap: 203px;
+    }
+
+    #left-panel  { position: relative; flex: 0 0 580px; height: 340px; }
+    #right-panel { position: relative; flex: 1;         height: 340px; }
+
+    #livecam-label {
+      position: absolute;
+      left: 168px; top: 23px;
+      display: flex; align-items: center; gap: 6px;
+      transform-origin: top left;
+    }
+    #lottie-dot   { width: 16px; height: 16px; flex-shrink: 0; }
+    #livecam-text { height: 16px; }
+
+    #video-frame {
+      position: absolute;
+      left: 171px; top: 50px;
+      width: 388px; height: 218px;
+      overflow: hidden;
+    }
+    #video-frame iframe { width: 100%; height: 100%; border: none; display: block; }
+
+    #title-img {
+      position: absolute;
+      left: -175px; top: 50px;
+      width: 584px; height: auto;
+      transform-origin: top left;
+    }
+
+    #btn-prev, #btn-next {
+      position: absolute;
+      background: none; border: none; padding: 0;
+      cursor: pointer; opacity: 0.7; transition: opacity .15s;
+    }
+    #btn-prev:hover, #btn-next:hover { opacity: 1; }
+    #btn-prev { left: -176px; top: 112px; }
+    #btn-next { left: 375px;  top: 112px; }
+    #btn-prev img, #btn-next img { width: 40px; height: 40px; display: block; }
+
+    #location-img {
+      position: absolute;
+      left: -49px; top: 119px;
+      height: 32px; width: auto;
+    }
+
+    #desc-img {
+      position: absolute;
+      left: -174px; top: 218px;
+      width: 584px; height: auto;
+      transform-origin: top left;
+    }
+  </style>
+</head>
+<body>
+  <div id="zone">
+    <div id="widget">
+
+      <div id="left-panel">
+        <div id="livecam-label">
+          <div id="lottie-dot"></div>
+          <img id="livecam-text" src="ELEMENTS/LiveCam.svg" alt="LiveCam">
+        </div>
+        <div id="video-frame">
+          <iframe id="yt-player"
+            src="https://www.youtube.com/embed/hZ5b-65Srhg?autoplay=1&mute=1&rel=0&modestbranding=1&controls=1"
+            allow="autoplay; encrypted-media; picture-in-picture"
+            allowfullscreen>
+          </iframe>
+        </div>
+      </div>
+
+      <div id="right-panel">
+        <img id="title-img" src="ELEMENTS/Discover our magical chocolate world live.svg" alt="">
+        <button id="btn-prev"><img src="ELEMENTS/prev.svg" alt="prev"></button>
+        <img id="location-img" src="ELEMENTS/Kilchberg - factory.svg" alt="">
+        <button id="btn-next"><img src="ELEMENTS/next.svg" alt="next"></button>
+        <img id="desc-img" src="ELEMENTS/description.svg" alt="">
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+  (function () {
+    lottie.loadAnimation({
+      container: document.getElementById('lottie-dot'),
+      renderer: 'svg', loop: true, autoplay: true,
+      path: 'ELEMENTS/livecam_dot.json'
+    });
+
+    const locations = [
+      { locationSrc: 'ELEMENTS/Kilchberg - factory.svg', ytId: 'hZ5b-65Srhg' },
+      { locationSrc: 'ELEMENTS/Kilchberg - museum.svg',  ytId: 'agoOHWNKA1w' }
+    ];
+    let current = 0;
+
+    function switchTo(idx) {
+      current = ((idx % 2) + 2) % 2;
+      document.getElementById('location-img').src = locations[current].locationSrc;
+      document.getElementById('yt-player').src =
+        `https://www.youtube.com/embed/${locations[current].ytId}?autoplay=1&mute=1&rel=0&modestbranding=1&controls=1`;
+    }
+
+    document.getElementById('btn-prev').addEventListener('click', () => switchTo(current - 1));
+    document.getElementById('btn-next').addEventListener('click', () => switchTo(current + 1));
+  })();
+  </script>
+
+  <!-- ── Layout Editor [L] ── -->
+  <div id="led" style="
+    position:fixed; top:10px; right:10px; z-index:9999;
+    background:rgba(20,10,0,0.92); color:#f0d080;
+    font:11px/1.9 monospace; padding:14px 16px;
+    width:290px; display:none; user-select:none;
+    max-height:95vh; overflow-y:auto;
+  ">
+    <div style="font:700 11px 'Marcellus',serif;letter-spacing:2px;margin-bottom:8px;color:#eed858">
+      LAYOUT EDITOR <span style="font-weight:400;color:#a08060">[L]</span>
+    </div>
+
+    <!-- TŁO SVG -->
+    <div style="color:#eed858;margin:8px 0 2px;font-weight:700">TŁO SVG</div>
+    <label>X      <input type="range" id="le-bgX" min="-400" max="400"  value="160"  style="width:95px"> <span id="le-bgX-v">160</span>px</label><br>
+    <label>Y      <input type="range" id="le-bgY" min="-200" max="200"  value="25"   style="width:95px"> <span id="le-bgY-v">25</span>px</label><br>
+    <label>Skala  <input type="range" id="le-bgS" min="30"   max="150"  value="80"   style="width:95px"> <span id="le-bgS-v">80</span>%</label>
+
+    <!-- LiveCam label -->
+    <div style="color:#eed858;margin:8px 0 2px;font-weight:700">LIVECAM LABEL</div>
+    <label>X      <input type="range" id="le-lcX" min="-100" max="400"  value="168" style="width:95px"> <span id="le-lcX-v">168</span>px</label><br>
+    <label>Y      <input type="range" id="le-lcY" min="-50"  max="200"  value="23"  style="width:95px"> <span id="le-lcY-v">23</span>px</label><br>
+    <label>Skala  <input type="range" id="le-lcS" min="30"   max="200"  value="100" style="width:95px"> <span id="le-lcS-v">100</span>%</label>
+
+    <!-- Video -->
+    <div style="color:#eed858;margin:8px 0 2px;font-weight:700">VIDEO</div>
+    <label>X      <input type="range" id="le-vX" min="-100" max="400"  value="171" style="width:95px"> <span id="le-vX-v">171</span>px</label><br>
+    <label>Y      <input type="range" id="le-vY" min="-50"  max="340"  value="50"  style="width:95px"> <span id="le-vY-v">50</span>px</label><br>
+    <label>Skala  <input type="range" id="le-vS" min="30"   max="150"  value="69"  style="width:95px"> <span id="le-vS-v">69</span>%</label>
+
+    <!-- Tytuł -->
+    <div style="color:#eed858;margin:8px 0 2px;font-weight:700">TYTUŁ</div>
+    <label>X      <input type="range" id="le-tX" min="-200" max="400"  value="-175" style="width:95px"> <span id="le-tX-v">-175</span>px</label><br>
+    <label>Y      <input type="range" id="le-tY" min="-50"  max="300"  value="50"   style="width:95px"> <span id="le-tY-v">50</span>px</label><br>
+    <label>Skala  <input type="range" id="le-tS" min="30"   max="150"  value="100"  style="width:95px"> <span id="le-tS-v">100</span>%</label>
+
+    <!-- Prev -->
+    <div style="color:#eed858;margin:8px 0 2px;font-weight:700">PREV</div>
+    <label>X     <input type="range" id="le-pX" min="-200" max="400" value="-176" style="width:95px"> <span id="le-pX-v">-176</span>px</label><br>
+    <label>Y     <input type="range" id="le-pY" min="-50"  max="300" value="112"  style="width:95px"> <span id="le-pY-v">112</span>px</label><br>
+    <label>Skala <input type="range" id="le-pS" min="20"   max="120" value="40"   style="width:95px"> <span id="le-pS-v">40</span>px</label>
+
+    <!-- Napis (lokacja) -->
+    <div style="color:#eed858;margin:8px 0 2px;font-weight:700">NAPIS</div>
+    <label>X     <input type="range" id="le-lX"  min="-200" max="400" value="-49" style="width:95px"> <span id="le-lX-v">-49</span>px</label><br>
+    <label>Y     <input type="range" id="le-lY"  min="-50"  max="300" value="119" style="width:95px"> <span id="le-lY-v">119</span>px</label><br>
+    <label>Skala <input type="range" id="le-lS"  min="10"   max="80"  value="32"  style="width:95px"> <span id="le-lS-v">32</span>px</label>
+
+    <!-- Next -->
+    <div style="color:#eed858;margin:8px 0 2px;font-weight:700">NEXT</div>
+    <label>X     <input type="range" id="le-nX" min="-200" max="500" value="375" style="width:95px"> <span id="le-nX-v">375</span>px</label><br>
+    <label>Y     <input type="range" id="le-nY" min="-50"  max="300" value="112" style="width:95px"> <span id="le-nY-v">112</span>px</label><br>
+    <label>Skala <input type="range" id="le-nS" min="20"   max="120" value="40"  style="width:95px"> <span id="le-nS-v">40</span>px</label>
+
+    <!-- Opis -->
+    <div style="color:#eed858;margin:8px 0 2px;font-weight:700">OPIS</div>
+    <label>X      <input type="range" id="le-dX" min="-200" max="400"  value="-174" style="width:95px"> <span id="le-dX-v">-174</span>px</label><br>
+    <label>Y      <input type="range" id="le-dY" min="0"    max="340"  value="218"  style="width:95px"> <span id="le-dY-v">218</span>px</label><br>
+    <label>Skala  <input type="range" id="le-dS" min="30"   max="150"  value="100"  style="width:95px"> <span id="le-dS-v">100</span>%</label>
+
+    <button onclick="leCopy()" style="margin-top:12px;background:#a87008;color:#fff;border:none;padding:6px 16px;font:11px Georgia,serif;cursor:pointer;letter-spacing:1px;width:100%">Kopiuj CSS</button>
+  </div>
+
+  <script>
+  (function () {
+    const panel   = document.getElementById('led');
+    const zone    = document.getElementById('zone');
+    const lcLabel = document.getElementById('livecam-label');
+    const vidFr   = document.getElementById('video-frame');
+    const titleI  = document.getElementById('title-img');
+    const btnPrev = document.getElementById('btn-prev');
+    const btnNext = document.getElementById('btn-next');
+    const locImg  = document.getElementById('location-img');
+    const descI   = document.getElementById('desc-img');
+
+    // base sizes for proportional scaling
+    const VIDEO_BASE_W  = 562;
+    const TITLE_BASE_W  = 584;
+    const DESC_BASE_W   = 584;
+    const BG_BASE_W     = 1440;
+    const BG_BASE_H     = 400;
+
+    const ids = ['bgX','bgY','bgS','lcX','lcY','lcS','vX','vY','vS','tX','tY','tS','pX','pY','pS','lX','lY','lS','nX','nY','nS','dX','dY','dS'];
+    ids.forEach(id => {
+      const el = document.getElementById('le-' + id);
+      if (!el) return;
+      el.addEventListener('input', () => {
+        document.getElementById('le-' + id + '-v').textContent = el.value;
+        applyAll();
+      });
+    });
+
+    function v(id) { return parseFloat(document.getElementById('le-' + id).value); }
+
+    function applyAll() {
+      // Tło SVG
+      const bgS = v('bgS') / 100;
+      zone.style.backgroundPosition = v('bgX') + 'px ' + v('bgY') + 'px';
+      zone.style.backgroundSize     = (BG_BASE_W * bgS) + 'px ' + (BG_BASE_H * bgS) + 'px';
+
+      // LiveCam label
+      lcLabel.style.left      = v('lcX') + 'px';
+      lcLabel.style.top       = v('lcY') + 'px';
+      lcLabel.style.transform = 'scale(' + (v('lcS') / 100) + ')';
+
+      // Video (16:9)
+      const vW = Math.round(VIDEO_BASE_W * v('vS') / 100);
+      const vH = Math.round(vW * 9 / 16);
+      vidFr.style.left   = v('vX') + 'px';
+      vidFr.style.top    = v('vY') + 'px';
+      vidFr.style.width  = vW + 'px';
+      vidFr.style.height = vH + 'px';
+
+      // Tytuł
+      const tW = Math.round(TITLE_BASE_W * v('tS') / 100);
+      titleI.style.left  = v('tX') + 'px';
+      titleI.style.top   = v('tY') + 'px';
+      titleI.style.width = tW + 'px';
+
+      // Prev
+      btnPrev.style.left = v('pX') + 'px';
+      btnPrev.style.top  = v('pY') + 'px';
+      btnPrev.querySelector('img').style.width  = v('pS') + 'px';
+      btnPrev.querySelector('img').style.height = v('pS') + 'px';
+
+      // Napis (lokacja)
+      locImg.style.left   = v('lX') + 'px';
+      locImg.style.top    = v('lY') + 'px';
+      locImg.style.height = v('lS') + 'px';
+
+      // Next
+      btnNext.style.left = v('nX') + 'px';
+      btnNext.style.top  = v('nY') + 'px';
+      btnNext.querySelector('img').style.width  = v('nS') + 'px';
+      btnNext.querySelector('img').style.height = v('nS') + 'px';
+
+      // Opis
+      const dW = Math.round(DESC_BASE_W * v('dS') / 100);
+      descI.style.left  = v('dX') + 'px';
+      descI.style.top   = v('dY') + 'px';
+      descI.style.width = dW + 'px';
+    }
+
+    window.leCopy = function () {
+      const bgS = v('bgS') / 100;
+      const vW  = Math.round(VIDEO_BASE_W * v('vS') / 100);
+      const vH  = Math.round(vW * 9 / 16);
+      const tW  = Math.round(TITLE_BASE_W * v('tS') / 100);
+      const dW  = Math.round(DESC_BASE_W  * v('dS') / 100);
+      console.log(
+`/* Tło SVG */
+#zone { background-position: ${v('bgX')}px ${v('bgY')}px; background-size: ${Math.round(BG_BASE_W*bgS)}px ${Math.round(BG_BASE_H*bgS)}px; }
+
+/* LiveCam label */
+#livecam-label { left: ${v('lcX')}px; top: ${v('lcY')}px; transform: scale(${(v('lcS')/100).toFixed(2)}); }
+
+/* Video */
+#video-frame { left: ${v('vX')}px; top: ${v('vY')}px; width: ${vW}px; height: ${vH}px; }
+
+/* Tytuł */
+#title-img { left: ${v('tX')}px; top: ${v('tY')}px; width: ${tW}px; }
+
+/* Prev */
+#btn-prev { left: ${v('pX')}px; top: ${v('pY')}px; }
+#btn-prev img { width: ${v('pS')}px; height: ${v('pS')}px; }
+
+/* Napis */
+#location-img { left: ${v('lX')}px; top: ${v('lY')}px; height: ${v('lS')}px; }
+
+/* Next */
+#btn-next { left: ${v('nX')}px; top: ${v('nY')}px; }
+#btn-next img { width: ${v('nS')}px; height: ${v('nS')}px; }
+
+/* Opis */
+#desc-img { left: ${v('dX')}px; top: ${v('dY')}px; width: ${dW}px; }`);
+      alert('Skopiowano do konsoli (F12)');
+    };
+
+    document.addEventListener('keydown', e => {
+      if (e.key === 'l' || e.key === 'L')
+        panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+    });
+  })();
+  </script>
+</body>
+</html>
